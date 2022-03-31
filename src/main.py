@@ -1,6 +1,7 @@
 import requests
 from store import store_data, store_page, store_image
 from mongo import get_links, set_flag, get_images_link
+from logger import file_logger
 
 
 def start_crawl(url):
@@ -14,10 +15,13 @@ def start_crawl(url):
 
 
 def get_one_single_page(link):
+    file_logger.info(f'{link} is being crawled')
     response = requests.get(link)
     if response.ok:
         store_page(response)
         return True
+    else:
+        file_logger.error(f'{link} Page crawl was not successful.')
     return False
 
 
@@ -45,6 +49,7 @@ def download_images():
 
 if __name__ == '__main__':
     target = 'https://seoul.craigslist.org/search/apa?s={}'
-    # crawl_pages()
+    file_logger.debug('Crawler started...')
+    crawl_pages()
     # start_crawl(target)
     # download_images()

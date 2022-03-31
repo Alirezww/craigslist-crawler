@@ -2,6 +2,8 @@ from urllib.parse import urlparse
 from mongo import save_links
 from parser import html_parse, parse_page
 from mongo import save_page, save_images
+from logger import file_logger
+
 
 
 def generate_filename(url):
@@ -29,7 +31,8 @@ def store_data(response_obj, db=True):
 
 
 def store_page(response_obj):
-    print(response_obj.url)
+    file_logger.info(f'storing {response_obj.url} started...')
+    file_logger.warning(f'warning {response_obj.url} started..')
     data, images = parse_page(response_obj.text)
     save_page(data)
     save_images({'post_id': data['post_id'], 'images': list(images)})

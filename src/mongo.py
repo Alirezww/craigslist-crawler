@@ -1,10 +1,12 @@
 from pymongo import MongoClient
-
+import logging
 client = MongoClient()
 db = client['crawler']
 links_collection = db.links
 advertisements_collection = db.advertisements
 images_collection = db.images
+
+logger = logging.getLogger(__name__)
 
 
 def save_links(data):
